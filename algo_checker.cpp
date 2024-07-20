@@ -4052,11 +4052,11 @@
 				"matrix bpow(const matrix& a, ll b)",
 				"{",
 				"    matrix t;",
-				"    if (!b)" // change to if (b == 1) return a if u use min-plus matmul,
+				"    if (!b) // change to if (b == 1) return a if u use min-plus matmul,"
 				"    {",
 				"        for (ll i = 0; i < 2; i++) t.mat[i][i] = 1;",
 				"        return t;",
-				"    }",
+				"    } // ans = bpow(t,l) if min-plus matmul",
 				"    t = bpow(a,b/2);",
 				"    if (b&1) return t*t*a;",
 				"    return t*t;",
