@@ -21,6 +21,78 @@
 			"}"
 		]
 	}
+	"discrete_log":
+	{
+		"prefix": ["discrete_log"],
+		"body":
+		[
+			"ll bpow(ll a, ll b, ll md)",
+			"{",
+			"    if (!b) return 1;",
+			"    ll m = bpow(a,b/2,md);",
+			"    if (b&1) return (((m*m)%md)*a)%md;",
+			"    return (m*m)%md;",
+			"}",
+			"ll solve(ll a, ll b, ll m)",
+			"{",
+			"    if (a == 0) return (b == 0 ? 1 : -1);",
+			"    a %= m; b %= m;",
+			"    ll n = sqrt(m)+1, ans = 1e18;",
+			"    map<ll,ll> vals;",
+			"    for (ll p = 1; p <= n; p++) vals[bpow(a,p*n,m)] = p;",
+			"    for (ll q = 0; q <= n; q++)",
+			"    {",
+			"        ll cur = (bpow(a,q,m)*b)%m;",
+			"        if (vals.count(cur)) ans = min(ans,vals[cur]*n-q);",
+			"    } ",
+			"    return (ans != 1e18 ? ans : -1);",
+			"}"
+		]
+	}
+	"discrete_log_2":
+	{
+		"prefix": ["discrete_log_2"],
+		"body":
+		[
+			"ll solve(ll a, ll b, ll m)",
+			"{",
+			"    if (a == 0) return (b == 0 ? 1 : -1);",
+			"    a %= m; b %= m;",
+			"    ll n = sqrt(m)+1, an = 1, ans = 1e18;",
+			"    for (ll i = 0; i < n; i++) an = (an*a)%m;",
+			"    unordered_map<ll,ll> vals;",
+			"    for (ll q = 0, cur = b; q <= n; q++) {vals[cur] = q; cur = (cur*a)%m;}",
+			"    for (ll p = 1, cur = 1; p <= n; p++) {cur = (cur*an)%m; if (vals.count(cur)) {ans = min(ans,n*p-vals[cur]);}}",
+			"    return (ans == 1e18 ? -1 : ans);",
+			"}"
+		]
+	}
+	"discrete_log_not_coprime":
+	{
+		"prefix": ["discrete_log_not_coprime"],
+		"body":
+		[
+			"ll solve(ll a, ll b, ll m)",
+			"{",
+			"    if (a == 0) return (b == 0 ? 1 : -1);",
+			"    a %= m; b %= m;",
+			"    ll k = 0, add = 0, g;",
+			"    while ((g = __gcd(a, m)) > 1)",
+			"    {",
+			"        if (b == k) return add;",
+			"        if (b % g) return -1;",
+			"        b /= g; m /= g; ++add;",
+			"        k = (k*a/g)%m;",
+			"    }",
+			"    ll n = sqrt(m)+1, an = 1, ans = 1e18;",
+			"    for (ll i = 0; i < n; i++) an = (an*a)%m;",
+			"    unordered_map<ll,ll> vals;",
+			"    for (ll q = 0, cur = b; q <= n; q++) {vals[cur] = q; cur = (cur*a)%m;}",
+			"    for (ll p = 1, cur = 1; p <= n; p++) {cur = (cur*an)%m; if (vals.count(cur)) {ans = min(ans,n*p-vals[cur]);}}",
+			"    return (ans == 1e18 ? -1 : ans);",
+			"}"
+		]
+	}
 	// Data Structure
 		// Segment Tree
 		"st_min":
@@ -4023,6 +4095,16 @@
 				"        }",
 				"    }",
 				"}"				
+			]
+		}
+		"bit2d":
+		{
+			"prefix": ["bit2d"],
+			"body":
+			[
+				"ll n, m, bit[mxn][mxn];",
+				"void update(ll x, ll y, ll val) {for (; x <= m; x += (x&-x)) for (ll v = y; v <= n; v += (v&-v)) bit[x][v] += val;}",
+				"ll get(ll x, ll y) {ll ans = 0; for (; x > 0; x -= (x&-x)) {for (ll v = y; v > 0; v -= (v&-v)) {ans += bit[x][v];}} return ans;}"			
 			]
 		}
 	// DP
