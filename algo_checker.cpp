@@ -4102,7 +4102,7 @@
 			"prefix": ["bit2d"],
 			"body":
 			[
-				"ll n, m, bit[mxn][mxn];",
+				"ll n, m, bit[mxn][mxn]; // m*n not n*m",
 				"void update(ll x, ll y, ll val) {for (; x <= m; x += (x&-x)) for (ll v = y; v <= n; v += (v&-v)) bit[x][v] += val;}",
 				"ll get(ll x, ll y) {ll ans = 0; for (; x > 0; x -= (x&-x)) {for (ll v = y; v > 0; v -= (v&-v)) {ans += bit[x][v];}} return ans;}"			
 			]
